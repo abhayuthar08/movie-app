@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 node_modules
+my-new-project
+
 
 
 # Editor directories and files
