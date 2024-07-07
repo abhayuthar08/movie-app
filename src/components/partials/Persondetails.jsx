@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncloadperson } from '../store/actions/personActions';
@@ -22,6 +23,7 @@ const Persondetails = () => {
   const { id } = useParams();
   const { pathname } = useLocation();
   const { info } = useSelector((state) => state.person);
+  const [category, setcategory] = useState("movie")
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ const Persondetails = () => {
 
 
 
-  return info ? <div className="px-[10%] min-h-[200vh] bg-[#1F1E24] w-screen flex flex-col text-white" >
+  return info ? <div className="px-[10%] min-h-[250vh] bg-[#1F1E24] w-screen flex flex-col text-white" >
 
 
     {/* part - 1 nav */}
@@ -145,7 +147,28 @@ const Persondetails = () => {
 
           <h1 className='text-lg text-zinc-400 font-semibold mt-3 '>Action</h1>
 
-          <DropDown  title="Category" options={["tv" , "movie"]} func={(e) => setCategory(e.target.value)} />
+          <DropDown title="Category" options={["tv", "movie"]} func={(e) => setCategory(e.target.value)} />
+
+        </div>
+
+        <div className='list-disc text-zinc-400 w-full h-[50vh] mt-5 overflow-x-hidden overflow-y-auto shadow-2xl shadow-[rgba(255,255,255,.3)] border-2 border-zinc-700 p-5'>
+
+          {info[category + "Credits"].cast.map((c, i) => (
+            <li className='hover:text-white p-5 rounded hover:bg-[#19191d] duration-300 cursor-pointer'>
+              <Link to={`/${category}/details/${c.id}`} className=''>
+                <span>
+                  {" "}
+                   {c.name ||
+                 c.title ||
+                  c.original_name ||
+                   c.original_title}
+                   </span>
+                <span className='block'> {c.character && `character name: ${c.character}`}</span>
+              </Link>
+            </li>
+          ))}
+
+
 
         </div>
 
